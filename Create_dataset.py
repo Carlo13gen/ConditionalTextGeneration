@@ -1,9 +1,10 @@
 import math
 
+import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from pycocotools.coco import COCO
-import numpy as np
+#import numpy as np
 
 # initialize COCO api for caption annotations
 train=[]
@@ -36,37 +37,53 @@ def cut_strings(s):
     return " ".join(words[:split])," ".join(words[split:])
 
 
+train_ratio = 0.8
+validation_ratio = 0.1
+test_ratio = 0.1
+
+df = pd.DataFrame(lista_tot)
+training_data = df.sample(frac=train_ratio, random_state=25)
+testing_data = df.drop(training_data.index)
+
+print('train: '+str(len(training_data)))
+print('test: '+str(len(testing_data)))
+
+test_data = testing_data.values.tolist()
+train_data = training_data.values.tolist()
+
 all_x = []
 all_y = []
-for s in lista_tot:
-    first_half, second_half = cut_strings(s)
+for s in test_data:
+    first_half, second_half = cut_strings(s[0])  #poichè test data è una lista di liste bisogna fare accesso alla lista interna
     all_x.append(first_half)
     all_y.append(second_half)
 
 X = all_x
 Y = all_y
 
-train_ratio = 0.8
-validation_ratio = 0.1
-test_ratio = 0.1
+x_val, x_test, y_val, y_test = train_test_split(X,Y, test_size=test_ratio/(test_ratio + validation_ratio))
 
-x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=1 - train_ratio)
-x_val, x_test, y_val, y_test = train_test_split(x_test, y_test, test_size=test_ratio/(test_ratio + validation_ratio))
+a_file = open("train.txt", "w")
+for row in train_data:
+    a_file.write(row[0]+'\n')
+a_file.close()
 
-x_train = np.array(x_train)
-y_train = np.array(y_train)
+a_file = open("x_val.txt", "w")
+for row in x_val:
+    a_file.write(row+'\n')
+a_file.close()
 
-x_val = np.array(x_val)
-y_val = np.array(y_val)
+a_file = open("y_val.txt", "w")
+for row in y_val:
+    a_file.write(row + '\n')
+a_file.close()
 
-x_test = np.array(x_test)
-y_test = np.array(y_test)
+a_file = open("x_test.txt", "w")
+for row in x_test:
+    a_file.write(row+'\n')
+a_file.close()
 
-np.save('x_train',x_train)
-np.save('y_train',y_train)
-
-np.save('x_val',x_val)
-np.save('y_val',y_val)
-
-np.save('x_test',x_test)
-np.save('y_test',y_test)
+a_file = open("y_test.txt", "w")
+for row in y_test:
+    a_file.write(row+'\n')
+a_file.close()
