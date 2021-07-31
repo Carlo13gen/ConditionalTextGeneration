@@ -4,31 +4,42 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from pycocotools.coco import COCO
+import json
 #import numpy as np
 
 # initialize COCO api for caption annotations
-train=[]
+train= {}
 annFile_train = './Dataset/captions_train2014.json'
 coco_caps_train =COCO(annFile_train)
 annIds_train = coco_caps_train.getAnnIds()
 anns_train = coco_caps_train.loadAnns(annIds_train)
+i = 0
 for x in anns_train:
-  cap=x['caption']
-  train.append(cap)
+    cap=x['caption']
+    im_id = x['image_id']
+    train[x['id']] = {"cap" : cap, "im_id" : im_id}
+
+
+
+test_im_cat = "./annotations-test/image_info_test2014.json"
+file = open(test_im_cat,"r")
+j_data = json.load(file)
+#print(j_data['images']['id'][2])
 
 # initialize COCO api for caption annotations
-val=[]
+val={}
 annFile = './Dataset/captions_val2014.json'
 coco_caps=COCO(annFile)
 annIds = coco_caps.getAnnIds()
 anns = coco_caps.loadAnns(annIds)
 for x in anns:
-  cap = x['caption']
-  val.append(cap)
+    cap = x['caption']
+    im_id = x['image_id']
+    val[x['id']] = {"cap": cap, "im_id": im_id}
 
 print('val: '+str(len(val)))
 print('train: '+str(len(train)))
-lista_tot= val+train
+lista_tot= {**train, **val}
 print('somma: '+str(len(lista_tot)))
 
 def cut_strings(s):
