@@ -13,13 +13,17 @@ os.system('git clone https://github.com/salesforce/ctrl.git')
 
 os.system('pip install fastBPE')
 
-os.system('python ./ctrl/training_utils/make_tf_records.py --text_file train.txt --control_code Caption --sequence_len 256')
+os.system('cd ./ctrl/training_utils')
+
+os.system('python ./make_tf_records.py --text_file ../../train.txt --control_code Caption --sequence_len 256')
 
 os.system('gsutil -m cp -r gs://sf-ctrl/seqlen256_v1.ckpt/ .')
 
-os.system('python ./ctrl/training_utils/training.py --model_dir ./seqlen256_v1.ckpt --iterations 500')
+os.system('python ./training.py --model_dir ./seqlen256_v1.ckpt --iterations 500')
 
-os.system(' python ./ctrl/generation.py --model_dir ./seqlen256_v1.ckpt --temperature 0.4 --topk 4')
+os.system('cd ..')
+
+os.system(' python ./generation.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature 0.4 --topk 4')
 
 
 
