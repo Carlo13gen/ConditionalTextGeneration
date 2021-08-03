@@ -13,7 +13,13 @@ os.system('git clone https://github.com/salesforce/ctrl.git')
 
 os.system('pip install fastBPE')
 
+os.system('pip uninstall tensorflow')
+
+os.system('pip install tensorflow==1.14')
+
 os.chdir('./ctrl/training_utils')
+
+exit(0)
 
 os.system('python ./make_tf_records.py --text_file ../../train.txt --control_code Caption --sequence_len 256')
 
