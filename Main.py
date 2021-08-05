@@ -5,17 +5,17 @@ from ipython_genutils.py3compat import execfile
 os.system('unzip ./Dataset/coco_annotation.zip -d ./Dataset')
 os.system('unzip ./annotations-test/image_info_test2014.zip -d ./annotations-test')
 
-os.system('pip3 install mask')
+os.system('conda install mask')
 
 os.system('python3 Create_dataset.py')
 
 os.system('git clone https://github.com/salesforce/ctrl.git')
 
-os.system('pip install fastBPE')
+os.system('conda install fastBPE')
 
-os.system('pip uninstall tensorflow')
+os.system('conda uninstall tensorflow')
 
-os.system('pip install tensorflow==1.14')
+os.system('conda install tensorflow==1.14')
 
 os.chdir('./ctrl/training_utils')
 
