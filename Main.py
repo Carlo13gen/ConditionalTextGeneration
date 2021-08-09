@@ -5,9 +5,15 @@ import os
 os.system('unzip ./Dataset/coco_annotation.zip -d ./Dataset')
 os.system('unzip ./annotations-test/image_info_test2014.zip -d ./annotations-test')
 
+os.system('conda create -n py36 python=3.6')
+
+os.system('conda activate py36')
+
 os.system('conda install -c conda-forge pycocotools')
 
-os.system('python3 Create_dataset.py')
+os.system('conda install matplotlib')
+
+os.system('python Create_dataset.py')
 
 os.system('git clone https://github.com/salesforce/ctrl.git')
 
