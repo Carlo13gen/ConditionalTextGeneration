@@ -1,29 +1,41 @@
 import os
 
-from ipython_genutils.py3compat import execfile
+#from ipython_genutils.py3compat import execfile
 
 os.system('unzip ./Dataset/coco_annotation.zip -d ./Dataset')
 os.system('unzip ./annotations-test/image_info_test2014.zip -d ./annotations-test')
 
-os.system('conda install mask')
+os.system('conda install -c conda-forge pycocotools')
 
 os.system('python3 Create_dataset.py')
 
 os.system('git clone https://github.com/salesforce/ctrl.git')
 
-os.system('conda install fastBPE')
+os.system('conda install -c conda-forge fastBPE')
+
+os.system('conda install -c conda-forge gast==0.2.2')
 
 os.system('conda uninstall tensorflow')
 
 os.system('conda install tensorflow==1.14')
 
+os.system(' (echo "import os" ; echo "print(os.listdir(\'/anaconda/envs/py36/lib/python3.6/site-packages/tensorflow_estimator/python/estimator/\'))") | python ')
+
+os.chdir('./ctrl')
+
+os.system('patch -b /anaconda/envs/py36/lib/python3.6/site-packages/tensorflow_estimator/python/estimator/keras.py estimator.patch')
+
+os.system('conda install -c conda-forge gsutil')
+
+os.system('conda install tqdm')
+
+os.system('gsutil -m cp -r gs://sf-ctrl/seqlen256_v1.ckpt/ .')
+
 os.chdir('./ctrl/training_utils')
 
 os.system('python ./make_tf_records.py --text_file ../../train.txt --control_code Caption --sequence_len 256')
 
-os.system('gsutil -m cp -r gs://sf-ctrl/seqlen256_v1.ckpt/ .')
-
-os.system('python ./training.py --model_dir ./seqlen256_v1.ckpt --iterations 500')
+os.system('python ./training.py --model_dir ../seqlen256_v1.ckpt --iterations 500')
 
 os.chdir('..')
 

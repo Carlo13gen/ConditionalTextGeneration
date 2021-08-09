@@ -3,12 +3,15 @@ import numpy as np
 import pandas as pd
 from pycocotools.coco import COCO
 import json
+import os
 
 def cut_strings(s):
     words = s.split(' ')
     split = int(math.ceil(len(words)/2.0))
     return " ".join(words[:split])," ".join(words[split:])
 
+os.system('unzip ./Dataset/coco_annotation.zip -d ./Dataset')
+os.system('unzip ./annotations-test/image_info_test2014.zip -d ./annotations-test')
 
 # initialize COCO api for caption annotations
 train= {}
