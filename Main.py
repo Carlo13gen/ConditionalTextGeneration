@@ -5,9 +5,9 @@ import os
 os.system('unzip ./Dataset/coco_annotation.zip -d ./Dataset')
 os.system('unzip ./annotations-test/image_info_test2014.zip -d ./annotations-test')
 
-os.system('conda create -n py36 python=3.6')
+os.system('conda create -n py27 python=2.7')
 
-os.system('conda activate py36')
+os.system('conda activate py27')
 
 os.system('conda install -c conda-forge pycocotools')
 
@@ -39,13 +39,13 @@ os.system('gsutil -m cp -r gs://sf-ctrl/seqlen256_v1.ckpt/ .')
 
 os.chdir('./ctrl/training_utils')
 
-os.system('python ./make_tf_records.py --text_file ../../train.txt --control_code Caption --sequence_len 256')
+os.system('python ./make_tf_records.py --text_file ../../train.txt --control_code caption --sequence_len 256')
 
 os.system('python ./training.py --model_dir ../seqlen256_v1.ckpt --iterations 500')
 
 os.chdir('..')
 
-os.system(' python ./generation.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature 0.4 --topk 4')
+os.system('python ./generation.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature 0.2 --topk 5')
 
 
 

@@ -53,14 +53,13 @@ print('train: '+str(len(train)))
 training_data = {**train, **val}
 print('somma: '+str(len(training_data)))
 
-train_file = open("train.txt", "w")
-i=0
-for idx in training_data.keys():
-    train_file.write(training_data[idx]['cap']+'\n')
-    i=i+1
-    if i==40000:
-        break
-train_file.close()
+#create 4 train dataset 10000 record
+for j in range(4):
+    train_id = list(training_data.keys())[j*10000:(j+1)*10000]
+    train_file = open("train"+j+".txt", "w")
+    for idx in train_id:
+        train_file.write(training_data[idx]['cap']+'\n')
+    train_file.close()
 print(i)
 
 
