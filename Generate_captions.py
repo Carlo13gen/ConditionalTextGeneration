@@ -178,6 +178,7 @@ for line in in_file.readline():
     #prompt = prompt.split('\\n')  # split on newlines if provided
 
     # tokenize provided prompt
+    print("complete this sentence: "+line)
     split_prompt = ' \n '.join(bpe.apply(line))
     split_prompt = split_prompt.split(' ')
 
@@ -286,10 +287,10 @@ for line in in_file.readline():
                 tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
                 tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
 
-                if not args.print_once:
+                '''if not args.print_once:
                     print('---------------------------------------')
                     print(tokens_generated_so_far)
-                    print()
+                    print()'''
             print(tokens_generated_so_far)
             out_file.write(tokens_generated_so_far.split(' ', 1)[1] + '\n')
             print('---------------------------------------')
