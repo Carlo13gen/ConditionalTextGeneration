@@ -56,11 +56,10 @@ print('somma: '+str(len(training_data)))
 #create 4 train dataset 10000 record
 for j in range(4):
     train_id = list(training_data.keys())[j*10000:(j+1)*10000]
-    train_file = open("train"+j+".txt", "w")
+    train_file = open("train"+str(j)+".txt", "w")
     for idx in train_id:
-        train_file.write(training_data[idx]['cap']+'\n')
+        train_file.write(training_data[idx]['cap'].strip('\n') +'\n')
     train_file.close()
-print(i)
 
 
 #create seed and reference file
