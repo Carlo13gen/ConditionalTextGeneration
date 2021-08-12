@@ -37,7 +37,7 @@ os.system('patch -b /anaconda/envs/py27/lib/python2.7/site-packages/tensorflow_e
 
 os.system('yes | conda install tqdm')
 
-os.chdir('./ctrl/training_utils')
+os.chdir('./training_utils')
 
 for i in range(4):
     os.system('mv ../../train'+str(i)+'.txt .')
@@ -49,7 +49,7 @@ os.system('python ./training.py --model_dir seqlen256_v1.ckpt --iterations 5')
 
 os.chdir('..')
 
-os.system('python ./generation.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature 0.2 --topk 5')
+os.system('python ./generation.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature 0.2 --topk 5 --print_once')
 
 
 
