@@ -24,7 +24,7 @@ parser.add_argument('--model_dir', type=str, required=True,
                     help='location of model checkpoint')
 parser.add_argument('--seed', type=int, default=1337,
                     help='random seed for TensorFlow, numpy and PythonHash')
-parser.add_argument('--generate_num', type=int, default=256,
+parser.add_argument('--generate_num', type=int, default=20,
                     help='number of tokens to generate')
 parser.add_argument('--temperature', type=float, default=0,
                     help='temperature for sampling distribution; 0 means greedy')
@@ -173,16 +173,16 @@ out_file = open(args.output_file,'w')
 in_file = open(args.input_file,'r')
 num = args.n_sentences
 
-for line in in_file.readline():
+for line in in_file.readlines():
     #prompt = raw_input('ENTER PROMPT: ') if not use_py3 else input('ENTER PROMPT: ')
     #prompt = prompt.split('\\n')  # split on newlines if provided
 
     # tokenize provided prompt
     print("complete this sentence: "+line)
-    split_prompt = ' \n '.join(bpe.apply(line))
-    split_prompt = split_prompt.split(' ')
+    line = line.strip('\n')
+    split_prompt = line.split(' ')
 
-    if not any(split_prompt[0] == x for x in CONTROL_CODES.keys()):
+    if not any(split_prompt[0] == x for x in [CONTROL_CODES.keys(), "caption"]):
         print("WARNING! You are not starting your generation from a control code so you won't get good results")
     text = [word2idx[i] for i in split_prompt]
 
@@ -255,11 +255,11 @@ for line in in_file.readline():
                 # for instance, if you want to disallow anything with the phrase `http`,
                 # you can delete theme from the pruned_list
                 # you can comment this out, I'm keeping it in for demonstration purpose
-                tokens_to_disallow = []
-                for _ in range(len(pruned_list)):
-                    if 'http' in idx2word[pruned_list[_]]:
-                        tokens_to_disallow.append(_)
-                pruned_list = np.delete(pruned_list, tokens_to_disallow)
+                #tokens_to_disallow = []
+                #for _ in range(len(pruned_list)):
+                #    if 'http' in idx2word[pruned_list[_]]:
+                #        tokens_to_disallow.append(_)
+                #pruned_list = np.delete(pruned_list, tokens_to_disallow)
 
                 if args.topn > 0:
                     print('TOPN :: top-n alternatives:', [idx2word[_] for _ in pruned_list[:args.topn]])
@@ -286,13 +286,14 @@ for line in in_file.readline():
                 tokens_generated_so_far = ' '.join([idx2word[c] for c in tokens_generated[0].squeeze()[:token + 2]])
                 tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
                 tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
-
-                '''if not args.print_once:
+                if not args.print_once:
                     print('---------------------------------------')
                     print(tokens_generated_so_far)
-                    print()'''
+                    print()
+
             print(tokens_generated_so_far)
-            out_file.write(tokens_generated_so_far.split(' ', 1)[1] + '\n')
+
+            out_file.write(tokens_generated_so_far.split(' ', 1)[1].strip('\n') + '\n')
             print('---------------------------------------')
 
         except KeyboardInterrupt:  # Exception as e:
