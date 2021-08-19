@@ -71,3 +71,4 @@ for id in seed_id:
     reference_file.write(training_data[id]['cap']+'\n')
     seed_file.write(first_half+'\n')
 seed_file.close()
+reference_file.close()
