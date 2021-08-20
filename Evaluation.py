@@ -6,12 +6,15 @@ import numpy as np
 
 splitter = RegexpTokenizer('\w+') #\w seleziona tutto cio che è un carattere "di parola"" . il + concatena alla selezione più "char parola" consecutivi
 
-if len(sys.argv) != 3:
+if len(sys.argv) < 3:
     print("Missing arguments")
     exit(-1)
 ref_path = sys.argv[1]
 gen_path = sys.argv[2]
 
+out_file = ""
+if len(sys.argv) == 4:
+    out_file = sys.argv[3]
 #Create reference tokens
 ref = []
 ref_file = open(ref_path,"r")
@@ -46,3 +49,8 @@ for g in gen:
     i=i+1
 
 print("Bleu score: %f\nSelf_Bleu score: %f(%f)"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean()))
+
+if out_file != "":
+    f_out = open(out_file, "a")
+    f_out.write("Bleu score: %f\nSelf_Bleu score: %f(%f)"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean()))
+    f_out.close()
