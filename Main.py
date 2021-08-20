@@ -49,4 +49,6 @@ os.system('mv ../seed_file.txt .')
 os.system('mv ../Generate_captions.py .')
 
 os.system('python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature 0.2 --topk 5 --print_once --input_file ./seed_file.txt')
+
+os.chdir('..')
 os.system('python ./Evaluation.py ./reference.txt ./output.txt ./score.txt')
