@@ -20,6 +20,8 @@ os.system('yes | conda install -c conda-forge gsutil')
 
 os.system('yes | conda install tqdm')
 
+os.system('yes | conda install -c conda-forge nltk')
+
 os.system('python Create_dataset.py')
 
 os.system('git clone https://github.com/salesforce/ctrl.git')
