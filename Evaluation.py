@@ -23,7 +23,7 @@ if len(sys.argv) == 9:
     iter = sys.argv[5]
     temp = sys.argv[6]
     topk = sys.argv[7]
-    nucl = sys.argv[8]
+    pen = sys.argv[8]
 #Create reference tokens
 ref = []
 ref_file = open(ref_path,"r")
@@ -72,6 +72,6 @@ print("Bleu score: %f\nSelf_Bleu score: %f(%f) Pos_bleu score:%f"%(np.array(bleu
 
 if out_file != "":
     f_out = open(out_file, "a")
-    f_out.write("PARAMS: lr: %f, iterations: %d, temperature: %f, topk: %d, nucleus: %f\n"%(lr,iter,temp,topk,nucl))
+    f_out.write("PARAMS: lr: %s, iterations: %s, temperature: %s, topk: %s, penalty: %s\n"%(lr,iter,temp,topk,pen))
     f_out.write("Bleu score: %f Self_Bleu score: %f(%f) Pos_bleu score:%f\n\n"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean(), np.array(pos_bleu).mean()))
     f_out.close()

@@ -54,6 +54,7 @@ os.system('mv ../../seed_file.txt ../')
 os.system('mv ../../Generate_captions.py ../')
 
 training_params = [(i, j) for i in lr for j in iterations]
+counter = 0
 for pair in training_params:
     os.system("python ./Training_mod.py --model_dir seqlen256_v1.ckpt --iterations " + str(pair[1]) + " --learning_rate " + str(pair[0]))
 
@@ -61,21 +62,18 @@ for pair in training_params:
 
     temperatures = [0.1, 0.2, 0.5]
     topk = [1, 5, 10]
-    nucleus = [0.1, 0.5, 0.9]
-    generation_topk_params =  [(i, j) for i in temperatures for j in topk ]
-    for topk_pair in generation_topk_params:
-        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(topk_pair[0]) + " --topk " + str(topk_pair[1]) + " --print_once  --input_file ./seed_file.txt")
+    penalty = [1, 1.2, 2]
+    generation_params =  [(i, j, k) for i in temperatures for j in topk for k in penalty ]
+    for triplet in generation_params:
+        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(triplet[0]) + " --topk " + str(triplet[1]) + "--penalty " + str(triplet[2]) + " --print_once  --input_file ./seed_file.txt")
 
         os.chdir('..')
-        os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt %f %d %f %d %s' % (pair[0], pair[1], topk_pair[0], topk_pair[1], "NAN"))
+        os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt %f %d %f %d %f' % (pair[0], pair[1], triplet[0], triplet[1], triplet[2]))
         os.chdir("./ctrl")
 
-    generation_nucleus_params =  [(i, j) for i in temperatures for j in nucleus ]
-    for nucleus_pair in generation_nucleus_params:
-        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(nucleus_pair[0]) +  " --print_once --nucleus " + str(nucleus_pair[1]) + " --input_file ./seed_file.txt")
 
-        os.chdir('..')
-        os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt %f %d %f %s %f' % (pair[0], pair[1], nucleus_pair[0], "NAN", nucleus_pair[1]))
-        os.chdir("./ctrl")
 
     os.chdir('./training_utils')
+    print("End of step %d/%d of training"%(counter+1, 9))
+
+print("END OF TUNING")

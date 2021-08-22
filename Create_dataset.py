@@ -63,7 +63,7 @@ for j in range(4):
 
 
 #create seed and reference file(complete caption for evaluation)
-seed_id = list(training_data.keys())[40000:40003]
+seed_id = list(training_data.keys())[40000:41000]
 seed_file = open("seed_file.txt", "w")
 reference_file = open('reference.txt','w')
 for id in seed_id:
