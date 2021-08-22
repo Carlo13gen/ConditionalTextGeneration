@@ -1,5 +1,8 @@
 import sys
 
+import nltk
+nltk.download('averaged_perceptron_tagger')
+
 from nltk.tokenize import RegexpTokenizer
 from nltk.translate import bleu_score
 from nltk import pos_tag
@@ -14,8 +17,13 @@ ref_path = sys.argv[1]
 gen_path = sys.argv[2]
 
 out_file = ""
-if len(sys.argv) == 4:
+if len(sys.argv) == 9:
     out_file = sys.argv[3]
+    lr = sys.argv[4]
+    iter = sys.argv[5]
+    temp = sys.argv[6]
+    topk = sys.argv[7]
+    nucl = sys.argv[8]
 #Create reference tokens
 ref = []
 ref_file = open(ref_path,"r")
@@ -64,5 +72,6 @@ print("Bleu score: %f\nSelf_Bleu score: %f(%f) Pos_bleu score:%f"%(np.array(bleu
 
 if out_file != "":
     f_out = open(out_file, "a")
-    f_out.write("Bleu score: %f\nSelf_Bleu score: %f(%f) Pos_bleu score:%f"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean(), np.array(pos_bleu).mean()))
+    f_out.write("PARAMS: lr: %f, iterations: %d, temperature: %f, topk: %d, nucleus: %f\n"%(lr,iter,temp,topk,nucl))
+    f_out.write("Bleu score: %f Self_Bleu score: %f(%f) Pos_bleu score:%f\n\n"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean(), np.array(pos_bleu).mean()))
     f_out.close()

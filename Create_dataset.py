@@ -69,6 +69,6 @@ reference_file = open('reference.txt','w')
 for id in seed_id:
     first_half, second_half = cut_strings(training_data[id]['cap'])
     reference_file.write(training_data[id]['cap']+'\n')
-    seed_file.write(first_half+'\n')
+    seed_file.write("caption " + first_half+'\n')
 seed_file.close()
 reference_file.close()
