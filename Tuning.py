@@ -55,7 +55,7 @@ os.system('mv ../../Generate_captions.py ../')
 
 training_params = [(i, j) for i in lr for j in iterations]
 for pair in training_params:
-    os.system("python ./Training_mod.py --model_dir seqlen256_v1.ckpt --iterations " + str(topk_pair[1]) + " --learning_rate " + str(topk_pair[0]))
+    os.system("python ./Training_mod.py --model_dir seqlen256_v1.ckpt --iterations " + str(pair[1]) + " --learning_rate " + str(pair[0]))
 
     os.chdir('..')
 
@@ -64,18 +64,18 @@ for pair in training_params:
     nucleus = [0.5]
     generation_topk_params =  [(i, j) for i in temperatures for j in topk ]
     for topk_pair in generation_topk_params:
-        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(topk_pair[0) + " --topk " + str(topk_pair[1]) + " --print_once  --input_file ./seed_file.txt")
+        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(topk_pair[0]) + " --topk " + str(topk_pair[1]) + " --print_once  --input_file ./seed_file.txt")
 
         os.chdir('..')
-        os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt %f %d %f %d %s' % (topk_pair[0], topk_pair[1], topk_pair[0], topk_pair[1], "NAN"))
+        os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt %f %d %f %d %s' % (pair[0], pair[1], topk_pair[0], topk_pair[1], "NAN"))
         os.chdir("./ctrl")
 
     generation_nucleus_params =  [(i, j) for i in temperatures for j in nucleus ]
     for nucleus_pair in generation_nucleus_params:
-        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(nucleus_pair[0) +  " --print_once --nucleus " + str(topk_pair[1]) + " --input_file ./seed_file.txt")
+        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(nucleus_pair[0]) +  " --print_once --nucleus " + str(nucleus_pair[1]) + " --input_file ./seed_file.txt")
 
         os.chdir('..')
-        os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt %f %d %f %s %f' % (nucleus_pair[0], nucleus_pair[1], nucleus_pair[0], "NAN", nucleus_pair[1]))
+        os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt %f %d %f %s %f' % (pair[0], pair[1], nucleus_pair[0], "NAN", nucleus_pair[1]))
         os.chdir("./ctrl")
 
     os.chdir('./training_utils')
