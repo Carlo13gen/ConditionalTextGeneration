@@ -44,8 +44,8 @@ for i in range(4):
     os.system('python ./make_tf_records.py --text_file train'+str(i)+'.txt --control_code caption --sequence_len 256')
     print('Finish TFRecord of training file: ' + str(i) + '\n')
 
-lr = [1e-2]
-iterations = [5]
+lr = [1e-2, 1e-1, 10]
+iterations = [1, 5, 10]
 
 
 
@@ -59,9 +59,9 @@ for pair in training_params:
 
     os.chdir('..')
 
-    temperatures = [0.2]
-    topk = [5]
-    nucleus = [0.5]
+    temperatures = [0.1, 0.2, 0.5]
+    topk = [1, 5, 10]
+    nucleus = [0.1, 0.5, 0.9]
     generation_topk_params =  [(i, j) for i in temperatures for j in topk ]
     for topk_pair in generation_topk_params:
         os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(topk_pair[0]) + " --topk " + str(topk_pair[1]) + " --print_once  --input_file ./seed_file.txt")
