@@ -300,3 +300,4 @@ for line in in_file.readlines():
             print('Continuing')
 
 out_file.close()
+in_file.close()
