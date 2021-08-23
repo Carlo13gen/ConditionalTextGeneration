@@ -49,4 +49,47 @@ in this step the [salesforce ctrl repository](https://github.com/salesforce/ctrl
 
 #### Dataset Creation
 The Dataset Creation phase consists in running the script [Create_dataset.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Create_dataset.py). It extracts the dataset from the 
-"coco_annotation.zip" archive and creates 4 textual files containing 10000 entries each one
+"coco_annotation.zip" archive and creates 4 textual files containing 10'000 entries each one. The training is performed on the first 40'000 captions, while the test on the captions from 40'000 to 41'000.
+
+#### Training Phase
+Training has two inner scripts:
+
+- [make_tf_records.py](https://github.com/salesforce/ctrl/blob/master/training_utils/make_tf_records.py) 
+- [Training_mod.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Training_mod.py)
+
+The first one creates the Tensorflow records to be used for training. 
+It takes in input:
+
+- The text file from which the text is taken to make tensorflow records (--text_file)
+- The control code (--control_code)
+- The sequence length (--seq_len)
+
+The second script performs the real training of the model. It takes in input:
+
+- The model to be trained directory (--model_dir)
+- The number of iterations for training (--iterations)
+
+#### Generation Phase
+The generation of text is performed by the script [Generate_captions.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Generate_captions.py), it takes in input
+
+- The directory of the model (--model dir)
+- A parameter called temperature (--temperature)
+- A parameter called topk (--topk)
+- The command to print only once (--print_once)
+- The input file which contains the beginning of the sentences to generate (--input_file)
+- A parameter called nucleus (--nucleus)
+
+#### Evaluation Phase
+After the generation phase, by running the [Evaluation.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Evaluation.py) a score is 
+assigned to the generation performed.
+This script takes in input three parameters:
+
+- The file with the reference captions, which are the ideal sentences to be generated
+- The file with the captions generated in the previous phase
+- A file on which the scores are written
+
+[Evaluation.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Evaluation.py) computes three different scores:
+
+- BLEU
+- SELF-BLEU
+- POS-BLEU
