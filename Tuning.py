@@ -45,9 +45,7 @@ for i in range(4):
     print('Finish TFRecord of training file: ' + str(i) + '\n')
 
 lr = [1e-2, 1e-1, 10]
-iterations = [1, 5, 10]
-
-
+iterations = [5, 10, 20]
 
 os.system('mv ../../seed_file.txt ../')
 
