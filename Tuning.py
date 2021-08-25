@@ -45,9 +45,7 @@ for i in range(4):
     print('Finish TFRecord of training file: ' + str(i) + '\n')
 
 lr = [1e-2, 1e-1, 10]
-iterations = [1, 5, 10]
-
-
+iterations = [5, 10, 20]
 
 os.system('mv ../../seed_file.txt ../')
 
@@ -65,7 +63,7 @@ for pair in training_params:
     penalty = [1, 1.2, 2]
     generation_params =  [(i, j, k) for i in temperatures for j in topk for k in penalty ]
     for triplet in generation_params:
-        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(triplet[0]) + " --topk " + str(triplet[1]) + " --penalty " + str(triplet[2]) + " --print_once  --input_file ./seed_file.txt")
+        os.system("python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature " + str(triplet[0]) + " --topk " + str(triplet[1]) + " --penalty " + str(triplet[2]) + " --print_once --input_file ./seed_file.txt")
 
         os.chdir('..')
         os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt %f %d %f %d %f' % (pair[0], pair[1], triplet[0], triplet[1], triplet[2]))

@@ -50,8 +50,9 @@ for r in ref:
 
 bleu = []
 self_bleu = []
-self_bleu_metodo2 = []
+self_bleu_v2 = []
 pos_bleu = []
+pos_bleu_v2 = []
   
 i = 0
 for g in gen:
@@ -61,14 +62,21 @@ for g in gen:
 
     gen_x = gen[:]
     gen_x.remove(g)
-    self_bleu_metodo2.append(bleu_score.sentence_bleu(gen_x,g, smoothing_function=bleu_score.SmoothingFunction().method1))
+    self_bleu_v2.append(bleu_score.sentence_bleu(gen_x,g, smoothing_function=bleu_score.SmoothingFunction().method1))
     
     g_pos = pos_tag(g)
     pos_bleu.append(bleu_score.sentence_bleu(ref_pos,g_pos, smoothing_function=bleu_score.SmoothingFunction().method1))
     
     i=i+1
 
-print("Bleu score: %f\nSelf_Bleu score: %f(%f) Pos_bleu score:%f"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean(), np.array(pos_bleu).mean()))
+N = min(len(gen),len(ref))
+for j in range(N):
+    ref_pos=pos_tag(ref[j])
+    gen_pos=pos_tag(gen[j])
+    pos_bleu_v2.append(bleu_score.sentence_bleu([ref_pos],gen_pos,smoothing_function=bleu_score.SmoothingFunction().method1))
+
+
+print("Bleu score: %f\nSelf_Bleu score: %f(%f) \nPos_bleu score:%f\nPos_bleu_v2:%f"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_v2).mean(), np.array(pos_bleu).mean(), np.array(pos_bleu_v2).mean()))
 
 if out_file != "":
     if os.path.exists(out_file):
@@ -77,5 +85,5 @@ if out_file != "":
         append_write = "w"
     f_out = open(out_file, append_write)
     f_out.write("PARAMS: lr: %s, iterations: %s, temperature: %s, topk: %s, penalty: %s\n"%(lr,iter,temp,topk,pen))
-    f_out.write("Bleu score: %f Self_Bleu score: %f(%f) Pos_bleu score:%f\n\n"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean(), np.array(pos_bleu).mean()))
+    f_out.write("Bleu score: %f Self_Bleu score: %f(%f) Pos_bleu score:%f Pos_bleu_v2 score:%f\n\n"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_v2).mean(), np.array(pos_bleu).mean(),np.array(pos_bleu_v2).mean()))
     f_out.close()
