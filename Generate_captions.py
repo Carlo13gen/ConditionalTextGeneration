@@ -172,13 +172,13 @@ topk = args.topk
 out_file = open(args.output_file,'w')
 in_file = open(args.input_file,'r')
 num = args.n_sentences
-
+i = 1;
 for line in in_file.readlines():
     #prompt = raw_input('ENTER PROMPT: ') if not use_py3 else input('ENTER PROMPT: ')
     #prompt = prompt.split('\\n')  # split on newlines if provided
 
     # tokenize provided prompt
-    print("complete this sentence: "+line)
+    print("complete this sentence:("+str(i)+") "+line)
     line = line.strip('\n')
     split_prompt = line.split(' ')
 
