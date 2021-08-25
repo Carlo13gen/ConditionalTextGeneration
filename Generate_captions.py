@@ -24,7 +24,7 @@ parser.add_argument('--model_dir', type=str, required=True,
                     help='location of model checkpoint')
 parser.add_argument('--seed', type=int, default=1337,
                     help='random seed for TensorFlow, numpy and PythonHash')
-parser.add_argument('--generate_num', type=int, default=64,
+parser.add_argument('--generate_num', type=int, default=20,
                     help='number of tokens to generate')
 parser.add_argument('--temperature', type=float, default=0,
                     help='temperature for sampling distribution; 0 means greedy')
