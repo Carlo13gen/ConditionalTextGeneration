@@ -1,5 +1,5 @@
 import sys
-
+import os
 import nltk
 nltk.download('averaged_perceptron_tagger')
 
@@ -71,7 +71,11 @@ for g in gen:
 print("Bleu score: %f\nSelf_Bleu score: %f(%f) Pos_bleu score:%f"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean(), np.array(pos_bleu).mean()))
 
 if out_file != "":
-    f_out = open(out_file, "a")
+    if os.path.exists(out_file):
+        append_write = "a"
+    else:
+        append_write = "w"
+    f_out = open(out_file, append_write)
     f_out.write("PARAMS: lr: %s, iterations: %s, temperature: %s, topk: %s, penalty: %s\n"%(lr,iter,temp,topk,pen))
     f_out.write("Bleu score: %f Self_Bleu score: %f(%f) Pos_bleu score:%f\n\n"%(np.array(bleu).mean(), np.array(self_bleu).mean(), np.array(self_bleu_metodo2).mean(), np.array(pos_bleu).mean()))
     f_out.close()
