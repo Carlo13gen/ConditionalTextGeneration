@@ -83,6 +83,8 @@ The generation of text is performed by the script [Generate_captions.py](https:/
 - The input file which contains the beginning of the sentences to generate (--input_file)
 - A parameter called nucleus (--nucleus)
 
+Generated captions are written in the "output.txt" file.
+
 #### Evaluation Phase
 After the generation phase, by running the [Evaluation.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Evaluation.py) a score is 
 assigned to the generation performed.
@@ -97,3 +99,5 @@ This script takes in input three parameters:
 - BLEU
 - SELF-BLEU
 - POS-BLEU
+
+Scores for the three metrics and parameters evaluated are written in the file "score.txt"
