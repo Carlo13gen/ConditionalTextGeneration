@@ -40,7 +40,11 @@ The Main.py script can be divided in 5 parts:
 4. Generation phase
 5. Evaluation phase
 
-By running the script those phases are all executed automatically.
+By running the script those phases are all executed automatically. [Main.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Main.py) can be run just using the command below.
+
+```buildoutcfg
+python Main.py
+```
 
 #### Libraries Installation and Model Download
 The first phase install inside the python environment, created in the previous section, the necessary libraries and it patches keras too. Furthermore
