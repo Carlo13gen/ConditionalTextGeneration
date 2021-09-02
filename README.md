@@ -72,18 +72,31 @@ The second script performs the real training of the model. It takes in input:
 
 - The model to be trained directory (--model_dir)
 - The number of iterations for training (--iterations)
+- Learning rate (--learning_rate)
+
+It is possible to train again the model running the command below.
+
+```buildoutcfg
+python Training_mod.py --model_dir <model dir> --iterations <iter> --learning_rate <learning rate>
+```
 
 #### Generation Phase
 The generation of text is performed by the script [Generate_captions.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Generate_captions.py), it takes in input
 
 - The directory of the model (--model dir)
 - A parameter called temperature (--temperature)
-- A parameter called topk (--topk)
+- A parameter called top-k (--topk)
 - The command to print only once (--print_once)
 - The input file which contains the beginning of the sentences to generate (--input_file)
 - A parameter called nucleus (--nucleus)
 
 Generated captions are written in the "output.txt" file.
+
+It is possible to run the generation without training again the model using the command below.
+
+```buildoutcfg
+python Generate_captions.py --model_dir <model directory> --temperature <temp> --topk <topk> --print_once --input_file <input file>
+```
 
 #### Evaluation Phase
 After the generation phase, by running the [Evaluation.py](https://github.com/Carlo13gen/ConditionalTextGeneration/blob/main/Evaluation.py) a score is 
