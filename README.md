@@ -66,7 +66,7 @@ It takes in input:
 
 - The text file from which the text is taken to make tensorflow records (--text_file)
 - The control code (--control_code)
-- The sequence length (--seq_len)
+- The sequence length of model being fine-tuned: it can be 256 or 512(--seq_len)
 
 The second script performs the real training of the model. It takes in input:
 
