@@ -45,7 +45,7 @@ for i in range(4):
     print('Finish TFRecord of training file: ' + str(i) + '\n')
 
 
-os.system('python ./Training_mod.py --model_dir seqlen256_v1.ckpt --iterations 5')
+os.system('python ./Training_mod.py --model_dir seqlen256_v1.ckpt --iterations 10 --learning_rate 1e-1')
 
 os.chdir('..')
 
@@ -53,7 +53,7 @@ os.system('mv ../seed_file.txt .')
 
 os.system('mv ../Generate_captions.py .')
 
-os.system('python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature 0.2 --topk 5 --print_once --input_file ./seed_file.txt')
+os.system('python ./Generate_captions.py --model_dir ./training_utils/seqlen256_v1.ckpt --temperature 0.5 --topk 1 --penalty 1.2 --print_once --input_file ./seed_file.txt')
 
 os.chdir('..')
 os.system('python ./Evaluation.py ./reference.txt ./ctrl/output.txt ./score.txt')
